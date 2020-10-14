@@ -37,7 +37,6 @@ script:
   - bundle exec rails webpacker:compile
   - bundle exec rspec
   - RAILS_ENV=test bundle exec rails server -p 3000 -d
-  - curl http://0.0.0.0:3000
   - CYPRESS_RECORD_KEY=00c787ee-8a73-44b0-8ce6-c56549874b92
   - npm run test:cypress
   - kill $(jobs -p) || true
