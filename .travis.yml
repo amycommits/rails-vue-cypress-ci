@@ -35,8 +35,7 @@ install:
 
 script:
   - bundle exec rails webpacker:compile
-  - bundle exec brakeman
-  - RUBYOPT='-W:no-deprecated -W:no-experimental' bundle exec rspec
+  - bundle exec rspec
   - bundle exec rails s -p 3000 &
   - $(npm bin)/cypress run --record & wait-on http://0.0.0.0:3000
   - kill $(jobs -p) || true
