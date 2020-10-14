@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "test:e2e": "cypress open",
-    "test:cypress": "$(npm bin)/cypress run --record $(CYPRESS_RECORD_KEY)"
+    "test:cypress": "$(npm bin)/cypress run --record 00c787ee-8a73-44b0-8ce6-c56549874b92"
   },
   "dependencies": {
     "@rails/actioncable": "^6.0.0",
