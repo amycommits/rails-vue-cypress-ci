@@ -1,0 +1,49 @@
+language: ruby
+
+addons:
+  chrome: stable
+  apt:
+    packages:
+      # Ubuntu 16+ does not install this dependency by default, so we need to install it ourselves
+      - libgconf-2-4
+
+cache:
+  bundler: true
+  yarn: true
+  directories:
+    - /home/travis/.rvm/
+    - ~/.npm
+    - ./node_modules
+    - ~/.cache
+  override:
+    - npm ci
+    - npm run cy:verify
+rvm:
+  - 2.7.1
+
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+  - psql -c 'create database casa_test;' -U postgres
+  - ln -s /usr/lib/chromium-browser/chromedriver ~/bin/chromedriver
+
+install:
+  - travis_retry gem install bundler
+  - travis_retry nvm install 13.7.0
+  - travis_retry npm install --global yarn
+  - travis_retry bundle install
+  - travis_retry yarn
+  - bundle install
+  - npm ci
+
+script:
+  - bundle exec rails webpacker:compile
+  - bundle exec brakeman
+  - RUBYOPT='-W:no-deprecated -W:no-experimental' bundle exec rspec
+  - bundle exec rails s -p 3000 &
+  - $(npm bin)/cypress run --record & wait-on http://0.0.0.0:3000
+  - kill $(jobs -p) || true
+
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT

@@ -2,7 +2,7 @@
   "name": "myapp",
   "private": true,
   "scripts": {
-    "test:e2e": "cypress open",
+    "test:e2e": "cypress open"
   },
   "dependencies": {
     "@rails/actioncable": "^6.0.0",
