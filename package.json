@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "test:e2e": "cypress open",
-    "test:cypress": "cypress run --record"
+    "test:cypress": "$(npm bin)/cypress run --record"
   },
   "dependencies": {
     "@rails/actioncable": "^6.0.0",
@@ -18,6 +18,7 @@
   "version": "0.1.0",
   "devDependencies": {
     "ci": "^1.0.0",
+    "cypress": "^5.3.0",
     "webpack-dev-server": "^3.11.0"
   }
 }
